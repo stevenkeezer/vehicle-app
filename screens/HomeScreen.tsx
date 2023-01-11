@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView, Animated, StyleSheet } from "react-native";
-import { ScrollView, XStack } from "tamagui";
+import { ScrollView, Spinner, XStack } from "tamagui";
 import DynamicHeader from "../components/DynamicHeader";
 import { FilterSheet } from "../components/FilterSheet";
 import { VehicleCard } from "../components/VehicleCard";
@@ -9,14 +9,17 @@ export default function HomeScreen({ navigation }) {
   const [carData, setCarData] = useState([]);
   const [openFilters, setOpenFilters] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
+    setLoadingData(true);
     fetch("https://myfakeapi.com/api/cars/")
       .then((response) => response.json())
       .then((json) => {
         setCarData(json.cars.slice(0, 20));
+        setLoadingData(false);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => setLoadingData(false));
   }, []);
 
   let scrollOffsetY = useRef(new Animated.Value(0)).current;
@@ -28,6 +31,19 @@ export default function HomeScreen({ navigation }) {
       car.car_model_year === Number(searchTerm) ||
       car.car_color.toLowerCase().includes(searchTerm.toLowerCase()) ||
       car.price.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const renderLoadingSpinner = () => (
+    <Spinner
+      size="small"
+      color="#000"
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        paddingTop: 10,
+      }}
+    />
   );
 
   return (
@@ -44,16 +60,26 @@ export default function HomeScreen({ navigation }) {
           { useNativeDriver: false }
         )}
       >
-        <XStack $sm={{ flexDirection: "column" }} px="$2" w="100%" space>
-          {(searchTerm === "" ? carData : filteredCars).map((car) => (
-            <VehicleCard key={car.id} carData={car} navigation={navigation} />
-          ))}
-        </XStack>
-        <FilterSheet
-          setOpen={setOpenFilters}
-          open={openFilters}
-          navigation={navigation}
-        />
+        {loadingData ? (
+          renderLoadingSpinner()
+        ) : (
+          <>
+            <XStack $sm={{ flexDirection: "column" }} px="$2" w="100%" space>
+              {(searchTerm === "" ? carData : filteredCars).map((car) => (
+                <VehicleCard
+                  key={car.id}
+                  carData={car}
+                  navigation={navigation}
+                />
+              ))}
+            </XStack>
+            <FilterSheet
+              setOpen={setOpenFilters}
+              open={openFilters}
+              navigation={navigation}
+            />
+          </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
