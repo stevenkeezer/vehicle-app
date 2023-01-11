@@ -1,6 +1,7 @@
 import { Button, Card, CardProps, H2, Image, Paragraph, XStack } from "tamagui";
 
 export function VehicleCard({ carData, navigation }) {
+  console.log(carData);
   return (
     <Card
       onPress={() => navigation.navigate("Details", { carData })}
@@ -11,7 +12,9 @@ export function VehicleCard({ carData, navigation }) {
     >
       <Card.Header padded>
         <H2>{carData.car}</H2>
-        <Paragraph theme="alt2">Now available</Paragraph>
+        <Paragraph theme="alt2">
+          {carData.availability && "Available"}
+        </Paragraph>
       </Card.Header>
       <Card.Footer padded>
         <XStack f={1} />
