@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 import { Button, Image } from "tamagui";
 import { BookingSheet } from "../components/BookingSheet";
 
-export default function SecondScreen({ navigation, route }) {
+export default function FilterScreen({ navigation, route }) {
   let language = route.params.language;
 
   return (

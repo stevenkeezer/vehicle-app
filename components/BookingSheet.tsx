@@ -1,14 +1,23 @@
-import { ChevronDown, ChevronUp } from "@tamagui/lucide-icons";
 import { Sheet } from "@tamagui/sheet";
 import { SheetProps } from "@tamagui/sheet/types/types";
-import { useState } from "react";
-import { Button, H1, H2, Paragraph, Text, XStack } from "tamagui";
+import { useEffect, useState } from "react";
+import { Button, H1, H2, Paragraph, XStack } from "tamagui";
+import { VehicleList } from "./VehicleList";
 
-export const BookingSheet = () => {
+export const BookingSheet = ({ navigation }) => {
   const [position, setPosition] = useState(0);
+
   const [open, setOpen] = useState(false);
   const [modal, setModal] = useState(true);
   const [innerOpen, setInnerOpen] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setOpen(true);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <>
@@ -24,25 +33,32 @@ export const BookingSheet = () => {
         modal={modal}
         open={open}
         onOpenChange={setOpen}
-        snapPoints={[85, 50, 25]}
+        snapPoints={[45, 90, 25]}
         dismissOnSnapToBottom
         position={position}
         onPositionChange={setPosition}
         zIndex={100_000}
       >
-        <Sheet.Overlay />
         <Sheet.Handle />
-        <Sheet.Frame f={1} p="$4" jc="center" ai="center" space="$5">
+        <Sheet.Frame
+          style={{ borderTopLeftRadius: 30, borderTopRightRadius: 20 }}
+          f={1}
+          p="$4"
+          space="$5"
+        >
+          {modal && (
+            <>
+              <InnerSheet open={innerOpen} onOpenChange={setInnerOpen} />
+              <Button size="$6" onPress={() => setInnerOpen(true)}></Button>
+            </>
+          )}
+          <VehicleList />
+          <Button onPress={() => navigation.navigate("Home")}>Book Now</Button>
+          <Button onPress={() => navigation.navigate("Home")}>Cancel</Button>
+          <Button size="$6" circular onPress={() => setOpen(false)} />
           <Button
             size="$6"
             circular
-            // icon={ChevronDown}
-            onPress={() => setOpen(false)}
-          />
-          <Button
-            size="$6"
-            circular
-            // icon={ChevronUp}
             onPress={() => setInnerOpen(true)}
           ></Button>
         </Sheet.Frame>
@@ -62,7 +78,6 @@ function InnerSheet(props: SheetProps) {
             size="$8"
             circular
             als="center"
-            icon={ChevronDown}
             onPress={() => props.onOpenChange?.(false)}
           />
           <H1>Hello world</H1>

@@ -7,6 +7,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
 import SecondScreen from "./screens/SecondScreen";
 import { BookingSheet } from "./components/BookingSheet";
+import DetailScreen from "./screens/DetailScreen";
+import FilterScreen from "./screens/FilterScreen";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -26,6 +28,8 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Second" component={SecondScreen} />
+          <Stack.Screen name="Details" component={DetailScreen} />
+          <Stack.Screen name="Filter" component={FilterScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </TamaguiProvider>
