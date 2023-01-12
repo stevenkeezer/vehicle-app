@@ -4,7 +4,7 @@
     "@react-navigation/native": "^6.1.1",
     "@react-navigation/native-stack": "^6.9.7",
     "@tamagui/config-base": "^1.0.2",
-    "@tamagui/lucide-icons": "^1.0.3",
+    "@tamagui/lucide-icons": "^1.0.7",
     "@tamagui/shorthands": "^1.0.2",
     "@tamagui/theme-base": "^1.0.2",
     "expo": "^47.0.0",

@@ -12,7 +12,6 @@ export default function DetailScreen({ route }) {
       const url =
         car_vin &&
         `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/${car_vin}?format=json`;
-      console.log(car_vin);
 
       const response = await fetch(url);
       const json = await response.json();
@@ -22,11 +21,12 @@ export default function DetailScreen({ route }) {
   }, [carData]);
 
   return (
-    <View>
+    <View style={{ padding: 14 }}>
       <Image
         src={{
           uri: "https://picsum.photos/200/300",
         }}
+        style={{ borderRadius: 10 }}
         width="100%"
         height="50%"
       />

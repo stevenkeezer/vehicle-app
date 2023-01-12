@@ -11,6 +11,13 @@ export default function HomeScreen({ navigation }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [loadingData, setLoadingData] = useState(true);
 
+  const [make, setMake] = useState(undefined);
+  const [year, setYear] = useState(undefined);
+  const [price, setPrice] = useState(undefined);
+
+  const isFiltered = (!make && !year && !price) || false;
+  let scrollOffsetY = useRef(new Animated.Value(0)).current;
+
   useEffect(() => {
     setLoadingData(true);
     fetch("https://myfakeapi.com/api/cars/")
@@ -22,15 +29,22 @@ export default function HomeScreen({ navigation }) {
       .catch((error) => setLoadingData(false));
   }, []);
 
-  let scrollOffsetY = useRef(new Animated.Value(0)).current;
-
-  const filteredCars = carData.filter(
-    (car) =>
+  const searchFilters = (car) => {
+    return (
       car.car.toLowerCase().includes(searchTerm.toLowerCase()) ||
       car.car_model.toLowerCase().includes(searchTerm.toLowerCase()) ||
       car.car_model_year === Number(searchTerm) ||
       car.car_color.toLowerCase().includes(searchTerm.toLowerCase()) ||
       car.price.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
+
+  let filteredCars = carData.filter(
+    (car) =>
+      (make ? car.car.toLowerCase() === make.toLowerCase() : true) &&
+      (year ? car.car_model_year === Number(year) : true) &&
+      (price ? Number(car.price.split("$")[1]) <= Number(price[0]) : true) &&
+      (searchTerm ? searchFilters(car) : true)
   );
 
   const renderLoadingSpinner = () => (
@@ -52,6 +66,7 @@ export default function HomeScreen({ navigation }) {
         animHeaderValue={scrollOffsetY}
         setOpenFilters={setOpenFilters}
         setSearchTerm={setSearchTerm}
+        filters={[make, year, price]}
       />
       <ScrollView
         scrollEventThrottle={16}
@@ -64,19 +79,26 @@ export default function HomeScreen({ navigation }) {
           renderLoadingSpinner()
         ) : (
           <>
-            <XStack $sm={{ flexDirection: "column" }} px="$2" w="100%" space>
-              {(searchTerm === "" ? carData : filteredCars).map((car) => (
-                <VehicleCard
-                  key={car.id}
-                  carData={car}
-                  navigation={navigation}
-                />
-              ))}
+            <XStack $sm={{ flexDirection: "column" }} w="100%" pt="$2" space>
+              {(searchTerm === "" && isFiltered ? carData : filteredCars).map(
+                (car) => (
+                  <VehicleCard
+                    key={car.id}
+                    carData={car}
+                    navigation={navigation}
+                  />
+                )
+              )}
             </XStack>
             <FilterSheet
               setOpen={setOpenFilters}
               open={openFilters}
-              navigation={navigation}
+              make={make}
+              setMake={setMake}
+              year={year}
+              setYear={setYear}
+              price={price}
+              setPrice={setPrice}
             />
           </>
         )}
@@ -98,66 +120,3 @@ const styles = StyleSheet.create({
     color: "#000",
   },
 });
-
-export const DATA = [
-  {
-    id: 1,
-    title: "Modern JS: A curated collection",
-  },
-  {
-    id: 2,
-    title: "JavaScript notes for professionals",
-  },
-  {
-    id: 3,
-    title: "JavaScript: The Good Parts",
-  },
-  {
-    id: 4,
-    title: "JavaScript: The right way",
-  },
-  {
-    id: 5,
-    title: "Exploring ES6",
-  },
-  {
-    id: 6,
-    title: "JavaScript Enlightenment",
-  },
-  {
-    id: 7,
-    title: "You dont know JS",
-  },
-  {
-    id: 8,
-    title: "Learn JavaScript",
-  },
-  {
-    id: 9,
-    title: "JavaScript succintly",
-  },
-  {
-    id: 10,
-    title: "Human JavaScript",
-  },
-  {
-    id: 11,
-    title: "JavaScript design patterns",
-  },
-  {
-    id: 12,
-    title: "JS50: 50 illustrations in JS",
-  },
-  {
-    id: 13,
-    title: "Eloqent JavaScript",
-  },
-  {
-    id: 14,
-    title: "Practical ES6",
-  },
-  {
-    id: 15,
-    title: "Speaking JavaScript",
-  },
-];

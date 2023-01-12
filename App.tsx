@@ -20,15 +20,30 @@ export default function App() {
     return null;
   }
 
+  // createNativeStackNavigator(); with border hidden on header
   const Stack = createNativeStackNavigator();
 
   return (
     <TamaguiProvider config={appConfig}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: "transparent",
+            },
+          }}
+        >
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Second" component={SecondScreen} />
-          <Stack.Screen name="Details" component={DetailScreen} />
+          <Stack.Screen
+            options={{
+              headerStyle: {
+                backgroundColor: "transparent",
+              },
+            }}
+            name="Details"
+            component={DetailScreen}
+          />
           <Stack.Screen name="Filter" component={FilterScreen} />
         </Stack.Navigator>
       </NavigationContainer>

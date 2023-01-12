@@ -1,14 +1,15 @@
 import * as React from "react";
 import { StyleSheet, Animated } from "react-native";
-import { Button, Input, XStack } from "tamagui";
+import { Button, Input, Text, XStack } from "tamagui";
 
-const Header_Max_Height = 120;
+const Header_Max_Height = 124;
 const Header_Min_Height = 68;
 
 export default function DynamicHeader({
   animHeaderValue,
   setOpenFilters,
   setSearchTerm,
+  filters,
 }) {
   const animateHeaderHeight = animHeaderValue.interpolate({
     inputRange: [0, Header_Max_Height - Header_Min_Height],
@@ -36,7 +37,7 @@ export default function DynamicHeader({
         style={{
           display: "flex",
           paddingHorizontal: 15,
-          paddingBottom: 15,
+          paddingBottom: 12,
         }}
         ai="center"
         space="$2"
@@ -49,16 +50,22 @@ export default function DynamicHeader({
           onChangeText={(text) => setSearchTerm(text)}
         />
       </XStack>
-      <XStack>
+      <XStack px="$3" space="$2">
         <Button
           size="$4"
+          style={{ borderRadius: 100 }}
           onPress={() => setOpenFilters(true)}
-          // style={{
-          //   position: "absolute",
-          // }}
         >
           Go
         </Button>
+        {filters.map((filter) => {
+          if (!filter) return null;
+          return (
+            <Button style={{ borderRadius: 100 }} size="$4">
+              <Text>{filter}</Text>
+            </Button>
+          );
+        })}
       </XStack>
     </Animated.View>
   );
@@ -70,7 +77,7 @@ const styles = StyleSheet.create({
     shadowColor: "#171717",
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
-    borderBottomColor: "#f2f2f7",
+    borderBottomColor: "#D0D0D0",
     overflow: "hidden",
     borderBottomWidth: 1,
     shadowRadius: 3,
