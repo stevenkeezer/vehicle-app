@@ -8,14 +8,15 @@ import {
   XStack,
   YStack,
 } from "tamagui";
+import { FontAwesome } from "@expo/vector-icons";
 
 export function Dropdown({ val, setVal, data, label }) {
   return (
     <XStack $sm={{ flexDirection: "column" }}>
-      <Text pb="$2">{label}</Text>
+      <Text pb="$5">{label}</Text>
       <Select id={label} value={val} onValueChange={setVal}>
-        <Select.Trigger w={180}>
-          <Select.Value placeholder="something" />
+        <Select.Trigger bg="red" w={130}>
+          <Select.Value w="100%" placeholder="something" />
         </Select.Trigger>
 
         <Adapt when="sm" platform="touch">
@@ -37,7 +38,9 @@ export function Dropdown({ val, setVal, data, label }) {
             w="100%"
             h="$3"
           >
-            <YStack zi={10}>{/* <ChevronUp size={20} /> */}</YStack>
+            <YStack zi={10}>
+              <FontAwesome name="check" color="gray" size={16} />
+            </YStack>
             <LinearGradient
               start={[0, 0]}
               end={[0, 1]}
@@ -59,7 +62,7 @@ export function Dropdown({ val, setVal, data, label }) {
                   >
                     <Select.ItemText>{item.name}</Select.ItemText>
                     <Select.ItemIndicator ml="auto">
-                      {/* <Check size={16} /> */}
+                      <FontAwesome name="check" color="gray" size={16} />
                     </Select.ItemIndicator>
                   </Select.Item>
                 );

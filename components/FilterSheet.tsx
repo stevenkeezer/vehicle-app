@@ -1,6 +1,6 @@
 import { Sheet } from "@tamagui/sheet";
 import { useRef, useState } from "react";
-import { Button, XStack } from "tamagui";
+import { Button, XStack, YStack } from "tamagui";
 import { Dropdown } from "./Dropdown";
 import PriceSlider from "./PriceSlider";
 
@@ -33,7 +33,7 @@ export const FilterSheet = ({
         <Sheet.Overlay style={{ backgroundColor: "rgba(0,0,0,0.5)" }} />
         <Sheet.Handle />
         <Sheet.Frame
-          style={{ borderTopLeftRadius: 30, borderTopRightRadius: 20 }}
+          style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
           f={1}
           p="$4"
           space="$5"
@@ -41,11 +41,22 @@ export const FilterSheet = ({
           <Button size="$4" onPress={() => setOpen(false)}>
             Close
           </Button>
-          <XStack space>
-            <Dropdown val={year} setVal={setYear} data={years} label="Year" />
-            <Dropdown val={make} setVal={setMake} data={makes} label="Make" />
-          </XStack>
-          <PriceSlider width="100%" price={price} setPrice={setPrice} />
+          <YStack>
+            <XStack
+              bg="red"
+              space="$5"
+              style={{ flex: 1, justifyContent: "space-between" }}
+            >
+              <Dropdown val={year} setVal={setYear} data={years} label="Year" />
+              <Dropdown val={make} setVal={setMake} data={makes} label="Make" />
+            </XStack>
+            <PriceSlider
+              width="100%"
+              mt="$14"
+              price={price}
+              setPrice={setPrice}
+            />
+          </YStack>
         </Sheet.Frame>
       </Sheet>
     </>

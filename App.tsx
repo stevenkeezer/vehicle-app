@@ -9,6 +9,8 @@ import SecondScreen from "./screens/SecondScreen";
 import { BookingSheet } from "./components/BookingSheet";
 import DetailScreen from "./screens/DetailScreen";
 import FilterScreen from "./screens/FilterScreen";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { useState } from "react";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -22,32 +24,35 @@ export default function App() {
 
   // createNativeStackNavigator(); with border hidden on header
   const Stack = createNativeStackNavigator();
+  const queryClient = new QueryClient();
 
   return (
-    <TamaguiProvider config={appConfig}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: "transparent",
-            },
-          }}
-        >
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Second" component={SecondScreen} />
-          <Stack.Screen
-            options={{
+    <QueryClientProvider client={queryClient}>
+      <TamaguiProvider config={appConfig}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
               headerStyle: {
                 backgroundColor: "transparent",
               },
             }}
-            name="Details"
-            component={DetailScreen}
-          />
-          <Stack.Screen name="Filter" component={FilterScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </TamaguiProvider>
+          >
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Second" component={SecondScreen} />
+            <Stack.Screen
+              options={{
+                headerStyle: {
+                  backgroundColor: "transparent",
+                },
+              }}
+              name="Details"
+              component={DetailScreen}
+            />
+            <Stack.Screen name="Filter" component={FilterScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </TamaguiProvider>
+    </QueryClientProvider>
   );
 }
 
