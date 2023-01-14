@@ -32,7 +32,7 @@ export function Dropdown({ val, setVal, data, label }) {
           </Sheet>
         </Adapt>
 
-        <Select.Content zIndex={200_000}>
+        <Select.Content zIndex={200000}>
           <Select.ScrollUpButton
             ai="center"
             jc="center"

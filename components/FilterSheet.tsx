@@ -30,7 +30,7 @@ export const FilterSheet = ({
       dismissOnSnapToBottom
       position={position}
       onPositionChange={setPosition}
-      zIndex={100_000}
+      zIndex={100000}
     >
       <Sheet.Overlay style={{ backgroundColor: "rgba(0,0,0,0.5)" }} />
       <Sheet.Handle />

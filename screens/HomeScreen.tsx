@@ -101,6 +101,7 @@ export default function HomeScreen({ navigation }) {
                 animHeaderValue={scrollOffsetY}
                 setOpenFilters={setOpenFilters}
                 setSearchTerm={setSearchTerm}
+                searchTerm={searchTerm}
               />
             }
             removeClippedSubviews
