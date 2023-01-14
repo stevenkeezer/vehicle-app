@@ -1,6 +1,4 @@
-# Expo + Tamagui minimal starter app
-
-This is a simple starter Expo app that has Tamagui configured
+Car sharing Demo App
 
 ## 🚀 How to use
 
