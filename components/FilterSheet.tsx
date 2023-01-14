@@ -59,7 +59,7 @@ export const FilterSheet = ({
           space="$5"
           jc="space-between"
         >
-          <XStack space="$1" jc="space-between" style={{ flexWrap: "wrap" }}>
+          <XStack space="$1" jc="space-between" flexWrap="wrap">
             <Dropdown val={year} setVal={setYear} data={years} label="Year" />
             <Dropdown val={make} setVal={setMake} data={makes} label="Make" />
             <XStack pt="$2">
