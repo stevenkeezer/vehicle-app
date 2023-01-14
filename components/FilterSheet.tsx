@@ -55,7 +55,7 @@ export const FilterSheet = ({
         </XStack>
 
         <YStack
-          h={Dimensions.get("screen").height / 1.9}
+          h={Dimensions.get("screen").height / 2}
           space="$5"
           jc="space-between"
         >

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { TamaguiProvider } from "tamagui";
+import { TamaguiProvider, Text } from "tamagui";
 import appConfig from "./tamagui.config";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
 import DetailScreen from "./screens/DetailScreen";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -32,7 +33,19 @@ export default function App() {
               },
             }}
           >
-            <Stack.Screen name="Cars" component={HomeScreen} />
+            <Stack.Screen
+              name="Cars"
+              component={HomeScreen}
+              // add icons left and right to header
+              options={{
+                headerLeft: () => (
+                  <Ionicons name="menu" size={24} color="gray" />
+                ),
+                headerRight: () => (
+                  <Ionicons name="notifications" size={24} color="gray" />
+                ),
+              }}
+            />
             <Stack.Screen
               options={{
                 headerShown: false,
