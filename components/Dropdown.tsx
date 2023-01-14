@@ -9,14 +9,16 @@ import {
   YStack,
 } from "tamagui";
 import { FontAwesome } from "@expo/vector-icons";
+import { Dimensions } from "react-native";
 
 export function Dropdown({ val, setVal, data, label }) {
   return (
     <XStack $sm={{ flexDirection: "column" }}>
-      <Text pb="$5">{label}</Text>
+      <Text py="$2">{label}</Text>
+
       <Select id={label} value={val} onValueChange={setVal}>
-        <Select.Trigger bg="red" w={130}>
-          <Select.Value w="100%" placeholder="something" />
+        <Select.Trigger w={Dimensions.get("screen").width / 2.4}>
+          {val && <Select.Value />}
         </Select.Trigger>
 
         <Adapt when="sm" platform="touch">
@@ -60,7 +62,7 @@ export function Dropdown({ val, setVal, data, label }) {
                     key={item.name}
                     value={item.name.toLowerCase()}
                   >
-                    <Select.ItemText>{item.name}</Select.ItemText>
+                    <Select.ItemText>{item.name && item.name}</Select.ItemText>
                     <Select.ItemIndicator ml="auto">
                       <FontAwesome name="check" color="gray" size={16} />
                     </Select.ItemIndicator>

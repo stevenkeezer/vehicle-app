@@ -5,6 +5,7 @@ import {
   Image,
   Paragraph,
   Separator,
+  Text,
   XStack,
   YStack,
 } from "tamagui";
@@ -15,12 +16,9 @@ export function VehicleCard({ carData, navigation }) {
     <Card
       onPress={() => navigation.navigate("Details", { carData })}
       theme="dark"
-      mx="$3"
-      mt="$3"
-      br="$3"
-      bordered
-      borderWidth={1}
-      borderColor="lightgray"
+      mx="$2.5"
+      mt="$2.5"
+      br="$2"
       elevate
     >
       <Card.Header pb="$16" pr="$3" pt="$3" ai="flex-end">
@@ -68,16 +66,15 @@ export function VehicleCard({ carData, navigation }) {
           }}
         >
           <YStack w="100%">
-            <YStack pt="$3" w="100%" pl="$4" pb="$4">
-              <H4>{carData.car}</H4>
-              <Paragraph>
-                {carData.car_model_year} {carData.car_model} located in the city
-                of San Franscisco
-              </Paragraph>
+            <YStack pt="$3" w="100%" px="$3" pb="$4">
+              <H4>
+                {carData.car_model_year} {carData.car} {carData.car_model}
+              </H4>
+              <Paragraph>15 miles from you</Paragraph>
             </YStack>
             <Separator />
             <XStack
-              px="$4"
+              px="$3"
               py="$3"
               style={{ justifyContent: "space-between" }}
               h={73}
@@ -86,32 +83,32 @@ export function VehicleCard({ carData, navigation }) {
             >
               <YStack>
                 <Paragraph color="gray">Price</Paragraph>
-                <Paragraph>{carData.price}</Paragraph>
+                <Text>
+                  ${Math.round(carData.price.slice(1)).toLocaleString()} / Week
+                </Text>
               </YStack>
 
               <YStack>
                 <Paragraph color="gray">Model</Paragraph>
-                <Paragraph>
-                  {carData.car_model}
-                  {carData.car_model_year}
-                </Paragraph>
+                <Text>{carData.car_model}</Text>
               </YStack>
 
               <YStack>
                 <Paragraph color="gray">Color</Paragraph>
-                <Paragraph>{carData.car_color}</Paragraph>
+                <Text>{carData.car_color}</Text>
               </YStack>
             </XStack>
           </YStack>
         </XStack>
       </Card.Footer>
+
       <Card.Background>
         <Image
           pos="absolute"
           als="center"
           width="100%"
           height={170}
-          src={`https://picsum.photos/500/220?random=${carData.id}`}
+          src={`https://source.unsplash.com/1600x9${carData.id}/?car`}
         />
       </Card.Background>
     </Card>

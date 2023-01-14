@@ -1,8 +1,10 @@
 import { Sheet } from "@tamagui/sheet";
-import { useRef, useState } from "react";
-import { Button, XStack, YStack } from "tamagui";
+import { useState } from "react";
+import { Button, Text, XStack, YStack } from "tamagui";
 import { Dropdown } from "./Dropdown";
-import PriceSlider from "./PriceSlider";
+import { FontAwesome } from "@expo/vector-icons";
+import { Dimensions } from "react-native";
+import { colors, makes, years } from "../consts/filters";
 
 export const FilterSheet = ({
   open,
@@ -11,147 +13,92 @@ export const FilterSheet = ({
   setMake,
   year,
   setYear,
-  price,
-  setPrice,
+  color,
+  setColor,
+  clearFilters,
 }) => {
   const [position, setPosition] = useState(0);
   const [modal, setModal] = useState(true);
 
   return (
-    <>
-      <Sheet
-        forceRemoveScrollEnabled={open}
-        modal={modal}
-        open={open}
-        onOpenChange={setOpen}
-        snapPoints={[50]}
-        dismissOnSnapToBottom
-        position={position}
-        onPositionChange={setPosition}
-        zIndex={100_000}
+    <Sheet
+      forceRemoveScrollEnabled={open}
+      modal={modal}
+      open={open}
+      onOpenChange={setOpen}
+      snapPoints={[70]}
+      dismissOnSnapToBottom
+      position={position}
+      onPositionChange={setPosition}
+      zIndex={100_000}
+    >
+      <Sheet.Overlay style={{ backgroundColor: "rgba(0,0,0,0.5)" }} />
+      <Sheet.Handle />
+      <Sheet.Frame
+        style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
+        f={1}
+        p="$4"
+        space="$5"
       >
-        <Sheet.Overlay style={{ backgroundColor: "rgba(0,0,0,0.5)" }} />
-        <Sheet.Handle />
-        <Sheet.Frame
-          style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
-          f={1}
-          p="$4"
-          space="$5"
+        <XStack
+          ai="flex-end"
+          space="$2"
+          style={{ justifyContent: "space-between", alignItems: "center" }}
         >
-          <Button size="$4" onPress={() => setOpen(false)}>
-            Close
+          <Text fontSize={16} fontWeight="semibold">
+            Filters
+          </Text>
+
+          <Button circular bg="transparent" onPress={() => setOpen(false)}>
+            <FontAwesome name="times" color="gray" size={24} />
           </Button>
-          <YStack>
-            <XStack
-              bg="red"
-              space="$5"
-              style={{ flex: 1, justifyContent: "space-between" }}
-            >
-              <Dropdown val={year} setVal={setYear} data={years} label="Year" />
-              <Dropdown val={make} setVal={setMake} data={makes} label="Make" />
+        </XStack>
+
+        <YStack
+          h={Dimensions.get("screen").height / 1.9}
+          space="$5"
+          style={{
+            justifyContent: "space-between",
+          }}
+        >
+          <XStack
+            space="$1"
+            style={{ flexWrap: "wrap", justifyContent: "space-between" }}
+          >
+            <Dropdown val={year} setVal={setYear} data={years} label="Year" />
+            <Dropdown val={make} setVal={setMake} data={makes} label="Make" />
+            <XStack pt="$2">
+              <Dropdown
+                val={color}
+                setVal={setColor}
+                data={colors}
+                label="Color"
+              />
             </XStack>
-            <PriceSlider
-              width="100%"
-              mt="$14"
-              price={price}
-              setPrice={setPrice}
-            />
-          </YStack>
-        </Sheet.Frame>
-      </Sheet>
-    </>
+          </XStack>
+
+          <XStack space="$3" style={{ justifyContent: "space-between" }}>
+            <Button
+              borderColor="#2373f1"
+              color="#2373f1"
+              bc="transparent"
+              w="48%"
+              onPress={clearFilters}
+            >
+              Clear Filters
+            </Button>
+            <Button
+              color="white"
+              fontWeight="semibold"
+              onPress={() => setOpen(false)}
+              bc="#2373f1"
+              w="48%"
+            >
+              Done
+            </Button>
+          </XStack>
+        </YStack>
+      </Sheet.Frame>
+    </Sheet>
   );
 };
-
-const years = [
-  { name: "2021" },
-  { name: "2020" },
-  { name: "2019" },
-  { name: "2018" },
-  { name: "2017" },
-  { name: "2016" },
-  { name: "2015" },
-  { name: "2014" },
-  { name: "2013" },
-  { name: "2012" },
-  { name: "2011" },
-  { name: "2010" },
-  { name: "2009" },
-  { name: "2008" },
-  { name: "2007" },
-  { name: "2006" },
-  { name: "2005" },
-  { name: "2004" },
-  { name: "2003" },
-  { name: "2002" },
-  { name: "2001" },
-  { name: "2000" },
-  { name: "1999" },
-  { name: "1998" },
-  { name: "1997" },
-  { name: "1996" },
-  { name: "1995" },
-  { name: "1994" },
-  { name: "1993" },
-  { name: "1992" },
-  { name: "1991" },
-  { name: "1990" },
-  { name: "1989" },
-  { name: "1988" },
-  { name: "1987" },
-  { name: "1986" },
-  { name: "1985" },
-  { name: "1984" },
-  { name: "1983" },
-  { name: "1982" },
-  { name: "1981" },
-];
-
-const makes = [
-  { name: "Acura" },
-  { name: "Alfa Romeo" },
-  { name: "Aston Martin" },
-  { name: "Audi" },
-  { name: "Bentley" },
-  { name: "BMW" },
-  { name: "Bugatti" },
-  { name: "Buick" },
-  { name: "Cadillac" },
-  { name: "Chevrolet" },
-  { name: "Chrysler" },
-  { name: "Dodge" },
-  { name: "Ferrari" },
-  { name: "Fiat" },
-  { name: "Ford" },
-  { name: "Genesis" },
-  { name: "GMC" },
-  { name: "Honda" },
-  { name: "Hyundai" },
-  { name: "Infiniti" },
-  { name: "Jaguar" },
-  { name: "Jeep" },
-  { name: "Kia" },
-  { name: "Lamborghini" },
-  { name: "Land Rover" },
-  { name: "Lexus" },
-  { name: "Lincoln" },
-  { name: "Lotus" },
-  { name: "Maserati" },
-  { name: "Mazda" },
-  { name: "McLaren" },
-  { name: "Mercedes-Benz" },
-  { name: "Mini" },
-  { name: "Mitsubishi" },
-  { name: "Nissan" },
-  { name: "Polestar" },
-  { name: "Porsche" },
-  { name: "Ram" },
-  { name: "Rolls-Royce" },
-  { name: "Scion" },
-  { name: "Smart" },
-  { name: "Subaru" },
-  { name: "Tesla" },
-  { name: "Toyota" },
-  { name: "Volkswagen" },
-  { name: "Volvo" },
-];

@@ -1,14 +1,8 @@
 import { FlashList } from "@shopify/flash-list";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-  SafeAreaView,
-  Animated,
-  StyleSheet,
-  View,
-  Dimensions,
-} from "react-native";
+import { Animated, View, Dimensions } from "react-native";
 import { useQuery } from "react-query";
-import { ScrollView, Spinner, Text, XStack, YStack } from "tamagui";
+import { Spinner, Text, XStack } from "tamagui";
 import DynamicHeader from "../components/DynamicHeader";
 import { FilterSheet } from "../components/FilterSheet";
 import { VehicleCard } from "../components/VehicleCard";
@@ -17,12 +11,11 @@ export default function HomeScreen({ navigation }) {
   const [openFilters, setOpenFilters] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCars, setFilteredCars] = useState([]);
-
   const [make, setMake] = useState(undefined);
   const [year, setYear] = useState(undefined);
-  const [price, setPrice] = useState(undefined);
+  const [color, setColor] = useState(undefined);
 
-  const isFiltered = make || year || price || searchTerm !== "";
+  const isFiltered = make || year || color || searchTerm !== "";
   let scrollOffsetY = useRef(new Animated.Value(0)).current;
 
   const getCars = async () => {
@@ -45,16 +38,23 @@ export default function HomeScreen({ navigation }) {
     return (
       (make ? car?.car?.toLowerCase() === make.toLowerCase() : true) &&
       (year ? car.car_model_year === Number(year) : true) &&
-      (price ? Number(car.price.split("$")[1]) <= Number(price[0]) : true) &&
+      (color ? car?.car_color.toLowerCase() === color.toLowerCase() : true) &&
       searchFilters(car)
     );
   };
 
   useEffect(() => {
-    if (searchTerm !== "" || make || year || price) {
+    if (searchTerm !== "" || make || year || color) {
       setFilteredCars(cars?.filter((car) => allFilters(car)));
     }
-  }, [searchTerm, make, year, price]);
+  }, [searchTerm, make, year, color]);
+
+  const clearFilters = () => {
+    setMake(undefined);
+    setYear(undefined);
+    setColor(undefined);
+    setSearchTerm("");
+  };
 
   const renderLoadingSpinner = () => (
     <Spinner
@@ -83,7 +83,6 @@ export default function HomeScreen({ navigation }) {
       ) : (
         <View
           style={{
-            backgroundColor: "#fff",
             height: Dimensions.get("screen").height,
             width: Dimensions.get("screen").width,
           }}
@@ -102,7 +101,6 @@ export default function HomeScreen({ navigation }) {
                 animHeaderValue={scrollOffsetY}
                 setOpenFilters={setOpenFilters}
                 setSearchTerm={setSearchTerm}
-                filters={[make, year, price]}
               />
             }
             removeClippedSubviews
@@ -125,14 +123,15 @@ export default function HomeScreen({ navigation }) {
             }
           />
           <FilterSheet
+            clearFilters={clearFilters}
             setOpen={setOpenFilters}
             open={openFilters}
             make={make}
             setMake={setMake}
             year={year}
             setYear={setYear}
-            price={price}
-            setPrice={setPrice}
+            color={color}
+            setColor={setColor}
           />
         </View>
       )}
