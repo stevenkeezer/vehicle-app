@@ -57,14 +57,9 @@ export const FilterSheet = ({
         <YStack
           h={Dimensions.get("screen").height / 1.9}
           space="$5"
-          style={{
-            justifyContent: "space-between",
-          }}
+          jc="space-between"
         >
-          <XStack
-            space="$1"
-            style={{ flexWrap: "wrap", justifyContent: "space-between" }}
-          >
+          <XStack space="$1" jc="space-between" style={{ flexWrap: "wrap" }}>
             <Dropdown val={year} setVal={setYear} data={years} label="Year" />
             <Dropdown val={make} setVal={setMake} data={makes} label="Make" />
             <XStack pt="$2">
@@ -77,7 +72,7 @@ export const FilterSheet = ({
             </XStack>
           </XStack>
 
-          <XStack space="$3" style={{ justifyContent: "space-between" }}>
+          <XStack space="$3" jc="space-between">
             <Button
               borderColor="#2373f1"
               color="#2373f1"
