@@ -1,9 +1,9 @@
 import * as React from "react";
 import { StyleSheet, Animated } from "react-native";
 import { Button, Text, XStack, Input } from "tamagui";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
-const Header_Max_Height = 122;
+const Header_Max_Height = 104;
 const Header_Min_Height = 68;
 
 export default function DynamicHeader({
@@ -41,7 +41,6 @@ export default function DynamicHeader({
           display: "flex",
           paddingHorizontal: 15,
         }}
-        pt="$4"
         ai="center"
         space="$1"
       >
@@ -56,6 +55,12 @@ export default function DynamicHeader({
           pl="$7"
           onChangeText={(text) => setSearchTerm(text)}
         />
+        <FontAwesome
+          name="search"
+          size={19}
+          color="lightgray"
+          style={{ position: "absolute", left: 28, top: 12 }}
+        />
 
         <Button
           size="$4"
@@ -64,14 +69,8 @@ export default function DynamicHeader({
           bg="#f8f8f8"
           onPress={() => setOpenFilters(true)}
         >
-          <FontAwesome name="bars" size={15} color="gray" />
+          <Ionicons name="filter" size={18} color="gray" />
         </Button>
-        <FontAwesome
-          name="search"
-          size={19}
-          color="lightgray"
-          style={{ position: "absolute", left: 28, top: 30 }}
-        />
       </XStack>
 
       <XStack px="$3" space="$3" pt="$3">

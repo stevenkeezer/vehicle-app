@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, H3, H4, H5, H6, Image, YStack, Text } from "tamagui";
 import { FontAwesome } from "@expo/vector-icons";
+import { ImageSlider } from "../components/ImageSlider";
+import { Dimensions } from "react-native";
 
 export default function DetailScreen({ route, navigation }) {
   let carData = route.params.carData;
@@ -22,13 +24,7 @@ export default function DetailScreen({ route, navigation }) {
 
   return (
     <YStack>
-      <Image
-        src={{
-          uri: "https://picsum.photos/200/300",
-        }}
-        width="100%"
-        height="50%"
-      />
+      <ImageSlider />
       {carData.availability ? (
         <Button
           position="absolute"
@@ -69,7 +65,7 @@ export default function DetailScreen({ route, navigation }) {
       >
         <FontAwesome name="arrow-left" color="white" size={16} />
       </Button>
-      <YStack p="$3">
+      <YStack p="$3" h={Dimensions.get("screen").height - 240}>
         <H3>
           {carData.car_model_year} {carData.car} {carData.car_model}
         </H3>
@@ -78,7 +74,7 @@ export default function DetailScreen({ route, navigation }) {
         )}
         <Text>36 miles from you</Text>
 
-        <YStack pt="$5">
+        <YStack pt="$5" flex={1} ai="flex-start">
           <Text fontWeight="bold" fontSize="$2" pb="$2" color="gray">
             Details
           </Text>
@@ -86,6 +82,11 @@ export default function DetailScreen({ route, navigation }) {
           <Text>{selectedCar?.Manufacturer}</Text>
           <Text>{selectedCar?.VehicleType}</Text>
         </YStack>
+        {carData.availability && (
+          <Button bg="black" color="white">
+            Book
+          </Button>
+        )}
       </YStack>
     </YStack>
   );
